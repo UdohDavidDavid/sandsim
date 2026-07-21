@@ -8,8 +8,6 @@ namespace constants {
     inline const char *TITLE = "Snake sim";
 
 
-    // inline const int cell_width = (WINDOW_WIDTH / COL_NUM);
-    // inline const int cell_height = (WINDOW_HEIGHT / ROW_NUM);
     inline const int cell_width = 10;
     inline const int cell_height = 10;
 
