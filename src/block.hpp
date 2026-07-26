@@ -7,11 +7,6 @@
 #include <random>
 #include <vector>
 
-enum class BlockState {
-    EMPTY,
-    FILLED,
-};
-
 struct Block {
     Rectangle rect = {67, 67, (float)constants::cell_width,
                       (float)constants::cell_height};
@@ -25,8 +20,6 @@ public:
     Block block;
     Block blocks[constants::COL_NUM][constants::ROW_NUM];
     Block new_blocks[constants::COL_NUM][constants::ROW_NUM];
-    float fallspeed = 100.0f;
-    // std::vector<Coord> coords;
 
     Blocks () {
         for (int i = 0; i < constants::COL_NUM; ++i) {
@@ -37,26 +30,25 @@ public:
                 blocks[i][j] = block;
             }
         }
-        // coords.push_back({10, 1});
-        // coords.push_back({10, 3});
-        // coords.push_back({10, 5});
-        // coords.push_back({10, 16});
-        // coords.push_back({10, 18});
-        // coords.push_back({10, 20});
-        // coords.push_back({10, 12});
-        // coords.push_back({10, 15});
-        // coords.push_back({10, 22});
-        // coords.push_back({1, 1});
-        // coords.push_back({1, 3});
-        // coords.push_back({1, 5});
-        // coords.push_back({1, 16});
-        // coords.push_back({1, 18});
-        // coords.push_back({1, 20});
-        // coords.push_back({1, 12});
-        // coords.push_back({1, 15});
-        // coords.push_back({1, 22});
-        // blocks[2][3].blockstate = BlockState::FILLED;
-        // blocks[10][15].blockstate = BlockState::FILLED;
+
+        blocks[10][1].blockstate = true;
+        blocks[10][3].blockstate = true;
+        blocks[10][5].blockstate = true;
+        blocks[10][16].blockstate = true;
+        blocks[10][18].blockstate = true;
+        blocks[10][20].blockstate = true;
+        blocks[10][12].blockstate = true;
+        blocks[10][15].blockstate = true;
+        blocks[10][22].blockstate = true;
+        blocks[1][1].blockstate = true;
+        blocks[1][3].blockstate = true;
+        blocks[1][5].blockstate = true;
+        blocks[1][16].blockstate = true;
+        blocks[1][18].blockstate = true;
+        blocks[1][20].blockstate = true;
+        blocks[1][12].blockstate = true;
+        blocks[1][15].blockstate = true;
+        blocks[1][22].blockstate = true;
     }
 
 
@@ -149,13 +141,7 @@ public:
     }
 
     void erase(int x, int y) {
-        // for (int i = 0; i < constants::COL_NUM; ++i) {
-        //     for (int j = 0; j < constants::ROW_NUM; ++j) {
-        //         if (i == x && j == y) {
         blocks[x][y].blockstate = false;
-                    // coords.erase(coords.begin() + i);
-                // }
-        // }
     }
 
     int choose_left_or_right() {
