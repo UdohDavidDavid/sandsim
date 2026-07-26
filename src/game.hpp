@@ -18,6 +18,8 @@ public:
         // Tell the window to use vsync and work on high DPI displays
         SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
 
+        SetTraceLogCallback(custom_log); // call this before InitWindow() 
+
         // Create the window and OpenGL context
         InitWindow(constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT,
                 constants::TITLE);
@@ -26,6 +28,10 @@ public:
     ~Game() {
         // destroy the window and cleanup the OpenGL context
         CloseWindow();
+    }
+
+    static void custom_log(int msgType, const char *text, va_list args) {
+        return;
     }
 
     void run() {
