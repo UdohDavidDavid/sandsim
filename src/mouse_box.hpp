@@ -93,11 +93,11 @@ public:
     void scroll_radius() {
         radius += static_cast<int>(GetMouseWheelMove());
         if (!isDrawing) {
-            if (radius >= 5) radius = 5;
+            if (radius >= 30) radius = 30;
             if (radius <= 1) radius = 1;
         }
         else {
-            if (radius >= 20) radius = 20;
+            if (radius >= 30) radius = 30;
             if (radius <= 1) radius = 1;
         }
         DrawText(std::to_string(radius).c_str(),
