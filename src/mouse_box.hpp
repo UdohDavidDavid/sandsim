@@ -50,7 +50,7 @@ public:
             else {
                 if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) && yep) {
                     timer += 1 * GetFrameTime();
-                    if (timer - last_frame_time > 0.08) {
+                    if (timer - last_frame_time > 0.06) {
                         timeout = true;
                         for (int i = 0; i < constants::COL_NUM; ++i) {
                             for (int j = 0; j < constants::ROW_NUM; ++j) {
@@ -91,13 +91,24 @@ public:
     }
 
     void scroll_radius() {
-        radius += static_cast<int>(GetMouseWheelMove());
+        static int offset = 1;
+        radius += static_cast<int>(GetMouseWheelMove()) * offset;
         if (!isDrawing) {
-            if (radius >= 30) radius = 30;
+            if (radius >= 5) {
+                offset = 2;
+            }
+            else {
+                offset = 1;
+            }
             if (radius <= 1) radius = 1;
         }
         else {
-            if (radius >= 30) radius = 30;
+            if (radius >= 5) {
+                offset = 2;
+            }
+            else {
+                offset = 1;
+            }
             if (radius <= 1) radius = 1;
         }
         DrawText(std::to_string(radius).c_str(),
