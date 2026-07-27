@@ -72,10 +72,7 @@ public:
     }
 
     void process_keys() {
-        if (IsKeyPressed(KEY_LEFT_SHIFT)) {
-            mouse_box.isDrawing = !mouse_box.isDrawing;
-        }
-        if(IsKeyPressed(KEY_LEFT_CONTROL)) {
+        if(IsKeyPressed(KEY_C)) {
             mouse_box.isNigga = !mouse_box.isNigga;
         }
     }

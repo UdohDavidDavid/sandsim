@@ -4,12 +4,16 @@
 #include "raylib.h"
 #include "constants.hpp"
 #include "block.hpp"
+#include <string>
 
 class MouseBox {
 public:
     bool isDrawing = false;
     bool isNigga = false;
     int radius = 1;
+    float timer = 0.0f;
+    float last_frame_time = 0.0f;
+    float timeout = false;
 
     void draw_rect_at_mouse_pos(Blocks &blocks) {
         mouse = GetMousePosition();
@@ -32,57 +36,52 @@ public:
         bool yep = false;
         if (mouse.x > 0 && mouse.x < constants::WINDOW_WIDTH && mouse.y > 0 && mouse.y < constants::WINDOW_HEIGHT)
             yep = true;
-        static float timer = 0.0f;
-        static float last_frame_time = 0.0f;
-        static float timeout = false;
-        if (!isDrawing) {
-            if (isNigga) {
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && yep) {
-                        for (int i = 0; i < constants::COL_NUM; ++i) {
-                            for (int j = 0; j < constants::ROW_NUM; ++j) {
-                                if (CheckCollisionRecs(mouse_rect, blocks.blocks[i][j].rect)) {
-                                    blocks.spawn(i, j); 
-                                }
+        if (isNigga) {
+            DrawText("-",
+                    mouse_rect.x + ((constants::cell_width) * radius) + constants::cell_width,
+                    mouse_rect.y - constants::cell_height, 5, WHITE);
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && yep) {
+                    for (int i = 0; i < constants::COL_NUM; ++i) {
+                        for (int j = 0; j < constants::ROW_NUM; ++j) {
+                            if (CheckCollisionRecs(mouse_rect, blocks.blocks[i][j].rect)) {
+                                blocks.spawn(i, j); 
                             }
                         }
-                }
+                    }
             }
-            else {
-                if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) && yep) {
-                    timer += 1 * GetFrameTime();
-                    if (timer - last_frame_time > 0.06) {
-                        timeout = true;
-                        for (int i = 0; i < constants::COL_NUM; ++i) {
-                            for (int j = 0; j < constants::ROW_NUM; ++j) {
-                                if (CheckCollisionRecs(mouse_rect, blocks.blocks[i][j].rect)) {
-                                    blocks.spawn(i, j); 
-                                }
-                            }
+            if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON) && yep) {
+                for (int i = 0; i < constants::COL_NUM; ++i) {
+                    for (int j = 0; j < constants::ROW_NUM; ++j) {
+                        if (CheckCollisionRecs(mouse_rect, blocks.blocks[i][j].rect)) {
+                            blocks.erase(i, j);
                         }
-                        timer = 0;
                     }
                 }
             }
         }
         else {
-            if (isNigga) {
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && yep) {
+            DrawText("C",
+                    mouse_rect.x + ((constants::cell_width) * radius) + constants::cell_width,
+                    mouse_rect.y - constants::cell_height, 5, WHITE);
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) && yep) {
+                timer += 1 * GetFrameTime();
+                if (timer - last_frame_time > 0.06) {
+                    timeout = true;
                     for (int i = 0; i < constants::COL_NUM; ++i) {
                         for (int j = 0; j < constants::ROW_NUM; ++j) {
                             if (CheckCollisionRecs(mouse_rect, blocks.blocks[i][j].rect)) {
-                                blocks.erase(i, j);
+                                blocks.spawn(i, j); 
                             }
                         }
                     }
+                    timer = 0;
                 }
             }
-            else {
-                if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) && yep) {
-                    for (int i = 0; i < constants::COL_NUM; ++i) {
-                        for (int j = 0; j < constants::ROW_NUM; ++j) {
-                            if (CheckCollisionRecs(mouse_rect, blocks.blocks[i][j].rect)) {
-                                blocks.erase(i, j);
-                            }
+            if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON) && yep) {
+                for (int i = 0; i < constants::COL_NUM; ++i) {
+                    for (int j = 0; j < constants::ROW_NUM; ++j) {
+                        if (CheckCollisionRecs(mouse_rect, blocks.blocks[i][j].rect)) {
+                            blocks.erase(i, j);
                         }
                     }
                 }
@@ -111,8 +110,9 @@ public:
             }
             if (radius <= 1) radius = 1;
         }
+        Vector2 text = MeasureTextEx(GetFontDefault(), std::to_string(radius).c_str(), 5, 1);
         DrawText(std::to_string(radius).c_str(),
-                mouse_rect.x - constants::cell_width,
+                (mouse_rect.x - constants::cell_width) - text.x,
                 mouse_rect.y - constants::cell_height, 5, WHITE);
     }
 

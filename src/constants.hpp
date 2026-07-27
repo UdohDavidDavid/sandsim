@@ -14,7 +14,7 @@ namespace constants {
     inline const int COL_NUM = WINDOW_WIDTH / cell_width;
     inline const int ROW_NUM = WINDOW_HEIGHT / cell_height;
 
-    inline const int FPS = 30;
+    inline const int FPS = 45;
 }
 
 #endif
